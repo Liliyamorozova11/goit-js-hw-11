@@ -1,11 +1,9 @@
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
 import { getImagesByQuery } from './js/pixabay-api.js';
 import {
-  createGallery,
+  renderGallery,
   clearGallery,
   showLoader,
   hideLoader,
@@ -14,11 +12,6 @@ import {
 const form = document.querySelector('.form');
 const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
-
-const lightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
-});
 
 hideLoader(loader);
 
@@ -52,8 +45,7 @@ form.addEventListener('submit', async event => {
       return;
     }
 
-    gallery.innerHTML = createGallery(data.hits);
-    lightbox.refresh();
+    renderGallery(gallery, data.hits);
   } catch (error) {
     iziToast.show({
       message: 'Something went wrong. Please try again later.',
